@@ -3,7 +3,6 @@ package dev.nullclient;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
-import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElementRegistry;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
@@ -24,7 +23,6 @@ public final class NullClient implements ClientModInitializer {
     private static KeyBinding toggleSneakKey;
 
     private static boolean freecamEnabled;
-    private static boolean hudEnabled = true;
     private static boolean antiLagEnabled;
     private static boolean toggleSprintEnabled;
     private static boolean toggleSneakEnabled;
@@ -39,26 +37,6 @@ public final class NullClient implements ClientModInitializer {
         toggleSneakKey = register("key.nullclient.toggle_sneak", GLFW.GLFW_KEY_F11);
 
         ClientTickEvents.END_CLIENT_TICK.register(NullClient::onClientTick);
-        HudElementRegistry.addLast(Identifier.of("nullclient", "hud"), (drawContext, tickCounter) -> {
-            MinecraftClient client = MinecraftClient.getInstance();
-            if (!hudEnabled || client.player == null || client.textRenderer == null) return;
-
-            int y = 8;
-            drawContext.drawTextWithShadow(client.textRenderer,
-                    Text.literal("§bNull Client §7v1.0.3"), 8, y, 0xFFFFFF);
-            y += 12;
-            drawContext.drawTextWithShadow(client.textRenderer,
-                    status("Freecam", freecamEnabled), 8, y, 0xFFFFFF);
-            y += 12;
-            drawContext.drawTextWithShadow(client.textRenderer,
-                    status("Anti-Lag", antiLagEnabled), 8, y, 0xFFFFFF);
-            y += 12;
-            drawContext.drawTextWithShadow(client.textRenderer,
-                    status("Toggle Sprint", toggleSprintEnabled), 8, y, 0xFFFFFF);
-            y += 12;
-            drawContext.drawTextWithShadow(client.textRenderer,
-                    status("Toggle Sneak", toggleSneakEnabled), 8, y, 0xFFFFFF);
-        });
     }
 
     private static KeyBinding register(String translationKey, int keyCode) {
@@ -68,10 +46,6 @@ public final class NullClient implements ClientModInitializer {
                 keyCode,
                 NULL_CLIENT_CATEGORY
         ));
-    }
-
-    private static String status(String name, boolean enabled) {
-        return "§7" + name + ": " + (enabled ? "§aON" : "§cOFF");
     }
 
     private static void onClientTick(MinecraftClient client) {
@@ -86,8 +60,11 @@ public final class NullClient implements ClientModInitializer {
         }
 
         while (hudKey.wasPressed()) {
-            hudEnabled = !hudEnabled;
-            notify(client, "HUD", hudEnabled);
+            if (client.currentScreen instanceof NullClientScreen) {
+                client.setScreen(null);
+            } else if (client.currentScreen == null) {
+                client.setScreen(new NullClientScreen());
+            }
         }
 
         while (antiLagKey.wasPressed()) {
@@ -121,7 +98,6 @@ public final class NullClient implements ClientModInitializer {
         }
     }
 
-
     private static void updateFreecam(MinecraftClient client) {
         if (client.player == null) return;
         if (freecamPosition == null) freecamPosition = client.player.getEyePos();
@@ -151,6 +127,18 @@ public final class NullClient implements ClientModInitializer {
 
     public static Vec3d getFreecamPosition() {
         return freecamPosition;
+    }
+
+    public static boolean isAntiLagEnabled() {
+        return antiLagEnabled;
+    }
+
+    public static boolean isToggleSprintEnabled() {
+        return toggleSprintEnabled;
+    }
+
+    public static boolean isToggleSneakEnabled() {
+        return toggleSneakEnabled;
     }
 
     private static void applyAntiLag(MinecraftClient client) {
