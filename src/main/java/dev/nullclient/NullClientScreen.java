@@ -2,6 +2,7 @@ package dev.nullclient;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Text;
 
@@ -86,9 +87,11 @@ public final class NullClientScreen extends Screen {
     }
 
     @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        if (button != 0) return super.mouseClicked(mouseX, mouseY, button);
+    public boolean mouseClicked(Click click, boolean doubled) {
+        if (click.button() != 0) return super.mouseClicked(click, doubled);
 
+        double mouseX = click.x();
+        double mouseY = click.y();
         int panelWidth = Math.min(PANEL_WIDTH, this.width - 24);
         int panelHeight = Math.min(PANEL_HEIGHT, this.height - 24);
         int left = (this.width - panelWidth) / 2;
@@ -98,7 +101,7 @@ public final class NullClientScreen extends Screen {
         int firstRowY = sectionY + 25;
         int rowGap = 31;
 
-        if (mouseX < left + 18 || mouseX > right - 18) return super.mouseClicked(mouseX, mouseY, button);
+        if (mouseX < left + 18 || mouseX > right - 18) return super.mouseClicked(click, doubled);
 
         for (int i = 0; i < 4; i++) {
             int y = firstRowY + rowGap * i;
@@ -126,6 +129,6 @@ public final class NullClientScreen extends Screen {
                 return true;
             }
         }
-        return super.mouseClicked(mouseX, mouseY, button);
+        return super.mouseClicked(click, doubled);
     }
 }
