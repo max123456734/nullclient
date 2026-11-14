@@ -3,7 +3,7 @@ package dev.nullclient;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
-import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
+import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElementRegistry;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
@@ -31,7 +31,7 @@ public final class NullClient implements ClientModInitializer {
         antiLagKey = register("key.nullclient.anti_lag", GLFW.GLFW_KEY_F9);
 
         ClientTickEvents.END_CLIENT_TICK.register(NullClient::onClientTick);
-        HudRenderCallback.EVENT.register((drawContext, tickCounter) -> {
+        HudElementRegistry.addLast(Identifier.of("nullclient", "hud"), (drawContext, tickCounter) -> {
             MinecraftClient client = MinecraftClient.getInstance();
             if (!hudEnabled || client.player == null || client.textRenderer == null) return;
 
