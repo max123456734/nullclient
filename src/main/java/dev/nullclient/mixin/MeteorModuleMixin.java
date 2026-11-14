@@ -15,7 +15,8 @@ public abstract class MeteorModuleMixin {
             method = "fromTag",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/nbt/NbtCompound;getBooleanOr(Ljava/lang/String;Z)Z"
+                    target = "Lnet/minecraft/class_2487;method_68566(Ljava/lang/String;Z)Z",
+                    remap = false
             )
     )
     private boolean nullclient$ignoreSavedActiveState(NbtCompound tag, String key, boolean fallback) {
