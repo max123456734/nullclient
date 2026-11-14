@@ -6,8 +6,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
 /**
- * Restore Meteor module settings and keybinds without restoring saved active states.
- * Meteor's module loader disables all modules before reading this configuration.
+ * Restore Meteor's settings and keybinds, but never restore saved active flags.
+ * Module.fromTag is called after Meteor disables modules during config loading.
  */
 @Mixin(targets = "meteordevelopment.meteorclient.systems.modules.Module")
 public abstract class MeteorModuleMixin {
@@ -20,6 +20,7 @@ public abstract class MeteorModuleMixin {
     )
     private boolean nullclient$ignoreSavedActiveState(NbtCompound tag, String key, boolean fallback) {
         if ("active".equals(key)) return false;
-        return tag.getBooleanOr(key, fallback);
+        if ("chatFeedback".equals(key) && !tag.contains(key)) return true;
+        return tag.getBoolean(key);
     }
 }
