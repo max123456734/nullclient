@@ -21,6 +21,6 @@ public abstract class MeteorModuleMixin {
     private boolean nullclient$ignoreSavedActiveState(NbtCompound tag, String key, boolean fallback) {
         if ("active".equals(key)) return false;
         if ("chatFeedback".equals(key) && !tag.contains(key)) return true;
-        return tag.getBoolean(key);
+        return tag.getBoolean(key).orElse(fallback);
     }
 }
