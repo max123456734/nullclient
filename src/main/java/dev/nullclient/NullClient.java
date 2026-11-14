@@ -13,6 +13,9 @@ import net.minecraft.text.Text;
 import org.lwjgl.glfw.GLFW;
 
 public final class NullClient implements ClientModInitializer {
+    private static final KeyBinding.Category NULL_CLIENT_CATEGORY =
+            KeyBinding.Category.create(Identifier.of("nullclient", "main"));
+
     private static KeyBinding freecamKey;
     private static KeyBinding autoMineKey;
     private static KeyBinding hudKey;
@@ -55,7 +58,7 @@ public final class NullClient implements ClientModInitializer {
                 translationKey,
                 InputUtil.Type.KEYSYM,
                 keyCode,
-                KeyBinding.Category.create(Identifier.of("nullclient", "main"))
+                NULL_CLIENT_CATEGORY
         ));
     }
 
@@ -66,7 +69,7 @@ public final class NullClient implements ClientModInitializer {
     private static void onClientTick(MinecraftClient client) {
         while (freecamKey.wasPressed()) {
             freecamEnabled = !freecamEnabled;
-            // This is a local no-clip movement mode, not a detached camera.
+            // This is local no-clip movement, not a detached camera.
             if (client.player != null) {
                 client.player.noClip = freecamEnabled;
                 client.player.setOnGround(false);
@@ -103,12 +106,9 @@ public final class NullClient implements ClientModInitializer {
     }
 
     private static void applyAntiLag(MinecraftClient client) {
-        // Conservative client-side profile: reduce particles to the minimum.
         if (client.options != null) {
             client.options.getParticles().setValue(
-                    antiLagEnabled
-                            ? ParticlesMode.MINIMAL
-                            : ParticlesMode.ALL
+                    antiLagEnabled ? ParticlesMode.MINIMAL : ParticlesMode.ALL
             );
         }
     }
