@@ -50,13 +50,7 @@ public final class NullClient implements ClientModInitializer {
 
     private static void onClientTick(MinecraftClient client) {
         while (freecamKey.wasPressed()) {
-            freecamEnabled = !freecamEnabled;
-            if (freecamEnabled && client.player != null) {
-                freecamPosition = client.player.getEyePos();
-            } else {
-                freecamPosition = null;
-            }
-            notify(client, "Freecam", freecamEnabled);
+            toggleFreecam(client);
         }
 
         while (hudKey.wasPressed()) {
@@ -68,18 +62,16 @@ public final class NullClient implements ClientModInitializer {
         }
 
         while (antiLagKey.wasPressed()) {
-            antiLagEnabled = !antiLagEnabled;
-            applyAntiLag(client);
-            notify(client, "Anti-Lag profile", antiLagEnabled);
+            toggleAntiLag(client);
         }
 
         while (toggleSprintKey.wasPressed()) {
-            toggleSprintEnabled = !toggleSprintEnabled;
+            toggleSprint();
             notify(client, "Toggle Sprint", toggleSprintEnabled);
         }
 
         while (toggleSneakKey.wasPressed()) {
-            toggleSneakEnabled = !toggleSneakEnabled;
+            toggleSneak();
             notify(client, "Toggle Sneak", toggleSneakEnabled);
         }
 
@@ -119,6 +111,31 @@ public final class NullClient implements ClientModInitializer {
             double speed = client.options.sprintKey.isPressed() ? 1.2 : 0.45;
             freecamPosition = freecamPosition.add(movement.normalize().multiply(speed));
         }
+    }
+
+    // These same actions are called by the clickable Null Client screen and keybinds.
+    public static void toggleFreecam(MinecraftClient client) {
+        freecamEnabled = !freecamEnabled;
+        if (freecamEnabled && client.player != null) {
+            freecamPosition = client.player.getEyePos();
+        } else {
+            freecamPosition = null;
+        }
+        notify(client, "Freecam", freecamEnabled);
+    }
+
+    public static void toggleAntiLag(MinecraftClient client) {
+        antiLagEnabled = !antiLagEnabled;
+        applyAntiLag(client);
+        notify(client, "Anti-Lag profile", antiLagEnabled);
+    }
+
+    public static void toggleSprint() {
+        toggleSprintEnabled = !toggleSprintEnabled;
+    }
+
+    public static void toggleSneak() {
+        toggleSneakEnabled = !toggleSneakEnabled;
     }
 
     public static boolean isFreecamEnabled() {
