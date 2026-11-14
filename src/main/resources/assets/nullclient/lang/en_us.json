@@ -1,0 +1,7 @@
+{
+  "category.nullclient": "Null Client",
+  "key.nullclient.freecam": "Toggle Freecam Movement",
+  "key.nullclient.auto_mine": "Toggle Auto Mine",
+  "key.nullclient.hud": "Toggle Custom HUD",
+  "key.nullclient.anti_lag": "Toggle Anti-Lag Profile"
+}
