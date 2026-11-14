@@ -23,7 +23,7 @@ Meteor is bundled unmodified as a nested Fabric mod. Its modules, GUI, and keybi
 ## In-game controls
 
 - Press **F8** to open the Null Client page.
-- The Freecam, Anti-Lag, Toggle Sprint, and Toggle Sneak rows are clickable and toggle their implemented Null Client features.
+- The Local No-Clip, Anti-Lag, Toggle Sprint, and Toggle Sneak rows are clickable and toggle their implemented Null Client features.
 - Press **Right Shift** to open the bundled Meteor Client Click GUI. Meteor's own category tabs, module toggles, settings, and keybind editing are handled by Meteor itself.
 - Change Null Client's keybinds in **Options → Controls → Key Binds → Null Client**. Configure Meteor module keybinds in Meteor's Click GUI.
 
