@@ -7,6 +7,8 @@ import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
+import net.minecraft.particle.ParticlesMode;
+import net.minecraft.util.Identifier;
 import net.minecraft.text.Text;
 import org.lwjgl.glfw.GLFW;
 
@@ -53,7 +55,7 @@ public final class NullClient implements ClientModInitializer {
                 translationKey,
                 InputUtil.Type.KEYSYM,
                 keyCode,
-                "category.nullclient"
+                KeyBinding.Category.create(Identifier.of("nullclient", "main"))
         ));
     }
 
@@ -105,8 +107,8 @@ public final class NullClient implements ClientModInitializer {
         if (client.options != null) {
             client.options.getParticles().setValue(
                     antiLagEnabled
-                            ? net.minecraft.client.option.Particles.MINIMAL
-                            : net.minecraft.client.option.Particles.ALL
+                            ? ParticlesMode.MINIMAL
+                            : ParticlesMode.ALL
             );
         }
     }
