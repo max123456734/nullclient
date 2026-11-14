@@ -48,7 +48,7 @@ public final class NullClient implements ClientModInitializer {
 
             int y = 8;
             drawContext.drawTextWithShadow(client.textRenderer,
-                    Text.literal("§bNull Client §7v1.0.1"), 8, y, 0xFFFFFF);
+                    Text.literal("§bNull Client §7v1.0.2"), 8, y, 0xFFFFFF);
             y += 12;
             drawContext.drawTextWithShadow(client.textRenderer,
                     status("Freecam", freecamEnabled), 8, y, 0xFFFFFF);
@@ -150,7 +150,7 @@ public final class NullClient implements ClientModInitializer {
         if (client.options.rightKey.isPressed()) movement = movement.add(right);
         if (client.options.leftKey.isPressed()) movement = movement.subtract(right);
         if (client.options.jumpKey.isPressed()) movement = movement.add(0.0, 1.0, 0.0);
-        if (client.options.sneakKey.isPressed()) movement = movement.add(0.0, -1.0, 0.0);
+        if (client.options.sneakKey.isPressed() && !toggleSneakEnabled) movement = movement.add(0.0, -1.0, 0.0);
 
         if (movement.lengthSquared() > 1.0E-6) {
             double speed = client.options.sprintKey.isPressed() ? 1.2 : 0.45;
