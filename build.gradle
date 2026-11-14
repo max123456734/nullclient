@@ -21,6 +21,42 @@ dependencies {
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 }
 
+// Bundle the official Meteor build for this exact Minecraft version as a Fabric
+// nested mod. Users install only the Null Client JAR; Fabric loads Meteor from it.
+def meteorJar = layout.buildDirectory.file("generated/meteor/meteor-client.jar")
+def meteorDownloadUrl = "https://meteorclient.com/api/download?version=1.21.11"
+
+tasks.register("downloadMeteorClient") {
+    outputs.file(meteorJar)
+    doLast {
+        def target = meteorJar.get().asFile
+        target.parentFile.mkdirs()
+        new URL(meteorDownloadUrl).openConnection().with {
+            connectTimeout = 20000
+            readTimeout = 60000
+            getInputStream().withCloseable { input ->
+                target.withOutputStream { output -> output << input }
+            }
+        }
+
+        // Fail the build early if the official endpoint returned an error page,
+        // the wrong artifact, or a non-Meteor JAR.
+        new java.util.zip.ZipFile(target).withCloseable { archive ->
+            def entry = archive.getEntry("fabric.mod.json")
+            if (entry == null) {
+                throw new GradleException("Downloaded Meteor file has no fabric.mod.json")
+            }
+            def metadata = archive.getInputStream(entry).getText("UTF-8")
+            if (!(metadata =~ /"id"\\s*:\\s*"meteor-client"/).find()) {
+                throw new GradleException("Downloaded mod is not Meteor Client")
+            }
+            if (!(metadata =~ /"minecraft"\\s*:\\s*".*1\\.21\\.11/).find()) {
+                throw new GradleException("Downloaded Meteor build is not for Minecraft 1.21.11")
+            }
+        }
+    }
+}
+
 processResources {
     inputs.property "version", project.version
     filesMatching("fabric.mod.json") {
@@ -40,7 +76,12 @@ java {
 }
 
 jar {
+    dependsOn tasks.named("downloadMeteorClient")
+    from(meteorJar) {
+        into "META-INF/jars"
+    }
     from("LICENSE") {
         rename { "${it}_${project.base.archivesName.get()}" }
     }
+    from("METEOR-NOTICE.md")
 }
