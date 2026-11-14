@@ -23,6 +23,7 @@ public final class NullClient implements ClientModInitializer {
     private static boolean antiLagEnabled;
     private static boolean toggleSprintEnabled;
     private static boolean toggleSneakEnabled;
+    private static ParticlesMode previousParticlesMode;
 
     @Override
     public void onInitializeClient() {
@@ -66,17 +67,16 @@ public final class NullClient implements ClientModInitializer {
             notify(client, "Toggle Sneak", toggleSneakEnabled);
         }
 
-        if (client.player != null && client.options != null) {
-            boolean gameplayActive = client.currentScreen == null;
-            client.options.sprintKey.setPressed(toggleSprintEnabled && gameplayActive);
-            client.options.sneakKey.setPressed(toggleSneakEnabled && gameplayActive);
-        } else if (client.options != null) {
-            client.options.sprintKey.setPressed(false);
-            client.options.sneakKey.setPressed(false);
+        // Only force a key down while its toggle is enabled. When disabled,
+        // leave vanilla key state untouched so normal manual movement still works.
+        if (client.player != null && client.options != null && client.currentScreen == null) {
+            if (toggleSprintEnabled) client.options.sprintKey.setPressed(true);
+            if (toggleSneakEnabled) client.options.sneakKey.setPressed(true);
         }
     }
 
     public static void toggleAntiLag(MinecraftClient client) {
+        if (client == null || client.options == null) return;
         antiLagEnabled = !antiLagEnabled;
         applyAntiLag(client);
         notify(client, "Anti-Lag profile", antiLagEnabled);
@@ -119,10 +119,16 @@ public final class NullClient implements ClientModInitializer {
     }
 
     private static void applyAntiLag(MinecraftClient client) {
-        if (client.options != null) {
-            client.options.getParticles().setValue(
-                    antiLagEnabled ? ParticlesMode.MINIMAL : ParticlesMode.ALL
-            );
+        if (client.options == null) return;
+
+        if (antiLagEnabled) {
+            if (previousParticlesMode == null) {
+                previousParticlesMode = client.options.getParticles().getValue();
+            }
+            client.options.getParticles().setValue(ParticlesMode.MINIMAL);
+        } else if (previousParticlesMode != null) {
+            client.options.getParticles().setValue(previousParticlesMode);
+            previousParticlesMode = null;
         }
     }
 
