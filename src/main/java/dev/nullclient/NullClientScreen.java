@@ -50,7 +50,7 @@ public final class NullClientScreen extends Screen {
 
         int rowY = sectionY + 25;
         int rowGap = 31;
-        drawFeature(context, left, right, rowY, mouseX, mouseY, "Freecam",
+        drawFeature(context, left, right, rowY, mouseX, mouseY, "Local No-Clip",
                 NullClient.getFreecamKeyName(), NullClient.isFreecamEnabled());
         drawFeature(context, left, right, rowY + rowGap, mouseX, mouseY, "Anti-Lag",
                 NullClient.getAntiLagKeyName(), NullClient.isAntiLagEnabled());
