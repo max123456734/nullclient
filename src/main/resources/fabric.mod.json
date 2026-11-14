@@ -4,7 +4,9 @@
   "version": "${version}",
   "name": "Null Client",
   "description": "A configurable client-side utility mod for Minecraft Java 1.21.11.",
-  "authors": ["max123456734"],
+  "authors": [
+    "max123456734"
+  ],
   "contact": {
     "sources": "https://github.com/max123456734/nullclient"
   },
@@ -20,5 +22,11 @@
     "minecraft": "1.21.11",
     "java": ">=21",
     "fabric-api": "*"
-  }
+  },
+  "mixins": [
+    {
+      "config": "nullclient.client.mixins.json",
+      "environment": "client"
+    }
+  ]
 }
