@@ -3,6 +3,7 @@ package dev.nullclient.mixin;
 import dev.nullclient.NullClient;
 import net.minecraft.client.render.Camera;
 import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.entity.Entity;
@@ -28,11 +29,11 @@ abstract class CameraMixin {
     }
 }
 
-@Mixin(ClientPlayerEntity.class)
+@Mixin(LivingEntity.class)
 abstract class ClientPlayerEntityMixin {
     @Inject(method = "tickMovement", at = @At("HEAD"), cancellable = true)
     private void nullclient$freezePlayerWhileFreecam(CallbackInfo ci) {
-        if (NullClient.isFreecamEnabled()) {
+        if ((Object) this instanceof ClientPlayerEntity && NullClient.isFreecamEnabled()) {
             ci.cancel();
         }
     }
