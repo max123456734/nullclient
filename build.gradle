@@ -47,10 +47,10 @@ tasks.register("downloadMeteorClient") {
                 throw new GradleException("Downloaded Meteor file has no fabric.mod.json")
             }
             def metadata = archive.getInputStream(entry).getText("UTF-8")
-            if (!(metadata =~ /"id"\\s*:\\s*"meteor-client"/).find()) {
+            if (!(metadata =~ /"id"\s*:\s*"meteor-client"/).find()) {
                 throw new GradleException("Downloaded mod is not Meteor Client")
             }
-            if (!(metadata =~ /"minecraft"\\s*:\\s*".*1\\.21\\.11/).find()) {
+            if (!(metadata =~ /"minecraft"\s*:\s*".*1\.21\.11/).find()) {
                 throw new GradleException("Downloaded Meteor build is not for Minecraft 1.21.11")
             }
         }
