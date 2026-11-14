@@ -9,6 +9,7 @@ import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.particle.ParticlesMode;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.text.Text;
 import org.lwjgl.glfw.GLFW;
 
@@ -29,6 +30,7 @@ public final class NullClient implements ClientModInitializer {
     private static boolean antiLagEnabled;
     private static boolean toggleSprintEnabled;
     private static boolean toggleSneakEnabled;
+    private static Vec3d freecamPosition;
 
     @Override
     public void onInitializeClient() {
@@ -81,12 +83,12 @@ public final class NullClient implements ClientModInitializer {
     private static void onClientTick(MinecraftClient client) {
         while (freecamKey.wasPressed()) {
             freecamEnabled = !freecamEnabled;
-            // This is local no-clip movement, not a detached camera.
-            if (client.player != null) {
-                client.player.noClip = freecamEnabled;
-                client.player.setOnGround(false);
+            if (freecamEnabled && client.player != null) {
+                freecamPosition = client.player.getEyePos();
+            } else {
+                freecamPosition = null;
             }
-            notify(client, "Freecam movement", freecamEnabled);
+            notify(client, "Freecam", freecamEnabled);
         }
 
         while (autoMineKey.wasPressed()) {
@@ -116,18 +118,52 @@ public final class NullClient implements ClientModInitializer {
         }
 
         if (client.player != null) {
-            if (freecamEnabled) {
-                client.player.noClip = true;
+            if (freecamEnabled && client.currentScreen == null) {
+                updateFreecam(client);
             }
             boolean gameplayActive = client.currentScreen == null;
             client.options.sprintKey.setPressed(toggleSprintEnabled && gameplayActive);
             client.options.sneakKey.setPressed(toggleSneakEnabled && gameplayActive);
             client.options.attackKey.setPressed(autoMineEnabled && gameplayActive);
         } else if (client.options != null) {
+            freecamPosition = null;
+            freecamEnabled = false;
             client.options.sprintKey.setPressed(false);
             client.options.sneakKey.setPressed(false);
             client.options.attackKey.setPressed(false);
         }
+    }
+
+
+    private static void updateFreecam(MinecraftClient client) {
+        if (client.player == null) return;
+        if (freecamPosition == null) freecamPosition = client.player.getEyePos();
+
+        Vec3d look = client.player.getRotationVec(1.0F);
+        Vec3d forward = new Vec3d(look.x, 0.0, look.z);
+        if (forward.lengthSquared() > 1.0E-6) forward = forward.normalize();
+        Vec3d right = new Vec3d(forward.z, 0.0, -forward.x);
+        Vec3d movement = Vec3d.ZERO;
+
+        if (client.options.forwardKey.isPressed()) movement = movement.add(forward);
+        if (client.options.backKey.isPressed()) movement = movement.subtract(forward);
+        if (client.options.rightKey.isPressed()) movement = movement.add(right);
+        if (client.options.leftKey.isPressed()) movement = movement.subtract(right);
+        if (client.options.jumpKey.isPressed()) movement = movement.add(0.0, 1.0, 0.0);
+        if (client.options.sneakKey.isPressed()) movement = movement.add(0.0, -1.0, 0.0);
+
+        if (movement.lengthSquared() > 1.0E-6) {
+            double speed = client.options.sprintKey.isPressed() ? 1.2 : 0.45;
+            freecamPosition = freecamPosition.add(movement.normalize().multiply(speed));
+        }
+    }
+
+    public static boolean isFreecamEnabled() {
+        return freecamEnabled;
+    }
+
+    public static Vec3d getFreecamPosition() {
+        return freecamPosition;
     }
 
     private static void applyAntiLag(MinecraftClient client) {
