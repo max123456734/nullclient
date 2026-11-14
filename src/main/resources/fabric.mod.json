@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "id": "nullclient",
+  "version": "${version}",
+  "name": "Null Client",
+  "description": "A configurable client-side utility mod for Minecraft Java 1.21.11.",
+  "authors": ["max123456734"],
+  "contact": {
+    "sources": "https://github.com/max123456734/nullclient"
+  },
+  "license": "MIT",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "dev.nullclient.NullClient"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.18.1",
+    "minecraft": "1.21.11",
+    "java": ">=21",
+    "fabric-api": "*"
+  }
+}
