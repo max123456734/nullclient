@@ -8,7 +8,7 @@ import net.minecraft.text.Text;
 
 public final class NullClientScreen extends Screen {
     private static final int PANEL_WIDTH = 430;
-    private static final int PANEL_HEIGHT = 285;
+    private static final int PANEL_HEIGHT = 255;
 
     public NullClientScreen() {
         super(Text.literal("Null Client"));
@@ -51,13 +51,11 @@ public final class NullClientScreen extends Screen {
 
         int rowY = sectionY + 25;
         int rowGap = 31;
-        drawFeature(context, left, right, rowY, mouseX, mouseY, "Local No-Clip",
-                NullClient.getFreecamKeyName(), NullClient.isFreecamEnabled());
-        drawFeature(context, left, right, rowY + rowGap, mouseX, mouseY, "Anti-Lag",
+        drawFeature(context, left, right, rowY, mouseX, mouseY, "Anti-Lag",
                 NullClient.getAntiLagKeyName(), NullClient.isAntiLagEnabled());
-        drawFeature(context, left, right, rowY + rowGap * 2, mouseX, mouseY, "Toggle Sprint",
+        drawFeature(context, left, right, rowY + rowGap, mouseX, mouseY, "Toggle Sprint",
                 NullClient.getToggleSprintKeyName(), NullClient.isToggleSprintEnabled());
-        drawFeature(context, left, right, rowY + rowGap * 3, mouseX, mouseY, "Toggle Sneak",
+        drawFeature(context, left, right, rowY + rowGap * 2, mouseX, mouseY, "Toggle Sneak",
                 NullClient.getToggleSneakKeyName(), NullClient.isToggleSneakEnabled());
 
         int infoY = bottom - 43;
@@ -103,21 +101,20 @@ public final class NullClientScreen extends Screen {
 
         if (mouseX < left + 18 || mouseX > right - 18) return super.mouseClicked(click, doubled);
 
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 3; i++) {
             int y = firstRowY + rowGap * i;
             if (mouseY >= y - 4 && mouseY <= y + 19) {
                 MinecraftClient client = MinecraftClient.getInstance();
                 switch (i) {
-                    case 0 -> NullClient.toggleFreecam(client);
-                    case 1 -> NullClient.toggleAntiLag(client);
-                    case 2 -> {
+                    case 0 -> NullClient.toggleAntiLag(client);
+                    case 1 -> {
                         NullClient.toggleSprint();
                         if (client.player != null) {
                             client.player.sendMessage(Text.literal("§b[Null Client] §fToggle Sprint: "
                                     + (NullClient.isToggleSprintEnabled() ? "§aON" : "§cOFF")), true);
                         }
                     }
-                    case 3 -> {
+                    case 2 -> {
                         NullClient.toggleSneak();
                         if (client.player != null) {
                             client.player.sendMessage(Text.literal("§b[Null Client] §fToggle Sneak: "
