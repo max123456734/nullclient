@@ -28,3 +28,4 @@ For a more stable connection, use wired Ethernet where possible, stop large down
 ## Build
 
 From this directory, run `gradle build` with Gradle 9.5.1 and Java 25. The JAR is created in `build/libs/`.
+

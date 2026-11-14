@@ -31,3 +31,4 @@ public final class NullFpsBoost implements ClientModInitializer {
         LOGGER.info("Ping cannot be reduced to zero by a client mod; network latency depends on your route and server.");
     }
 }
+
