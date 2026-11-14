@@ -141,6 +141,27 @@ public final class NullClient implements ClientModInitializer {
         return toggleSneakEnabled;
     }
 
+
+    public static String getFreecamKeyName() {
+        return freecamKey.getBoundKeyLocalizedText().getString();
+    }
+
+    public static String getHudKeyName() {
+        return hudKey.getBoundKeyLocalizedText().getString();
+    }
+
+    public static String getAntiLagKeyName() {
+        return antiLagKey.getBoundKeyLocalizedText().getString();
+    }
+
+    public static String getToggleSprintKeyName() {
+        return toggleSprintKey.getBoundKeyLocalizedText().getString();
+    }
+
+    public static String getToggleSneakKeyName() {
+        return toggleSneakKey.getBoundKeyLocalizedText().getString();
+    }
+
     private static void applyAntiLag(MinecraftClient client) {
         if (client.options != null) {
             client.options.getParticles().setValue(
