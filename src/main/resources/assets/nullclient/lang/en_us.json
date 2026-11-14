@@ -1,5 +1,5 @@
 {
-  "key.category.nullclient.main": "Null Client",
+  "key.category.nullclient.controls": "Null Client",
   "key.nullclient.freecam": "Toggle Freecam Movement",
   "key.nullclient.auto_mine": "Toggle Auto Mine",
   "key.nullclient.hud": "Toggle Custom HUD",
