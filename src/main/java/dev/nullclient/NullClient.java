@@ -14,7 +14,7 @@ import org.lwjgl.glfw.GLFW;
 
 public final class NullClient implements ClientModInitializer {
     private static final KeyBinding.Category NULL_CLIENT_CATEGORY =
-            KeyBinding.Category.create(Identifier.of("nullclient", "main"));
+            KeyBinding.Category.create(Identifier.of("nullclient", "controls"));
 
     private static KeyBinding freecamKey;
     private static KeyBinding autoMineKey;
@@ -40,7 +40,7 @@ public final class NullClient implements ClientModInitializer {
 
             int y = 8;
             drawContext.drawTextWithShadow(client.textRenderer,
-                    Text.literal("§bNull Client §7v1.0.0"), 8, y, 0xFFFFFF);
+                    Text.literal("§bNull Client §7v1.0.1"), 8, y, 0xFFFFFF);
             y += 12;
             drawContext.drawTextWithShadow(client.textRenderer,
                     status("Freecam", freecamEnabled), 8, y, 0xFFFFFF);
