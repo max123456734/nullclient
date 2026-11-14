@@ -109,13 +109,17 @@ public final class NullClientScreen extends Screen {
                     case 1 -> NullClient.toggleAntiLag(client);
                     case 2 -> {
                         NullClient.toggleSprint();
-                        client.player.sendMessage(Text.literal("§b[Null Client] §fToggle Sprint: "
-                                + (NullClient.isToggleSprintEnabled() ? "§aON" : "§cOFF")), true);
+                        if (client.player != null) {
+                            client.player.sendMessage(Text.literal("§b[Null Client] §fToggle Sprint: "
+                                    + (NullClient.isToggleSprintEnabled() ? "§aON" : "§cOFF")), true);
+                        }
                     }
                     case 3 -> {
                         NullClient.toggleSneak();
-                        client.player.sendMessage(Text.literal("§b[Null Client] §fToggle Sneak: "
-                                + (NullClient.isToggleSneakEnabled() ? "§aON" : "§cOFF")), true);
+                        if (client.player != null) {
+                            client.player.sendMessage(Text.literal("§b[Null Client] §fToggle Sneak: "
+                                    + (NullClient.isToggleSneakEnabled() ? "§aON" : "§cOFF")), true);
+                        }
                     }
                     default -> { }
                 }
