@@ -1,6 +1,6 @@
 {
   "key.category.nullclient.controls": "Null Client",
-  "key.nullclient.freecam": "Toggle Freecam Movement",
+  "key.nullclient.freecam": "Toggle Local No-Clip Movement",
   "key.nullclient.hud": "Toggle Custom HUD",
   "key.nullclient.anti_lag": "Toggle Anti-Lag Profile",
   "key.nullclient.toggle_sprint": "Toggle Sprint",
