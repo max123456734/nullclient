@@ -50,7 +50,7 @@ public final class NullClientScreen extends Screen {
         drawFeature(context, left, right, rowY, "Freecam",
                 NullClient.getFreecamKeyName(), NullClient.isFreecamEnabled());
         drawFeature(context, left, right, rowY + rowGap, "Open / Close Menu",
-                NullClient.getHudKeyName(), true);
+                NullClient.getHudKeyName(), "OPEN");
         drawFeature(context, left, right, rowY + rowGap * 2, "Anti-Lag",
                 NullClient.getAntiLagKeyName(), NullClient.isAntiLagEnabled());
         drawFeature(context, left, right, rowY + rowGap * 3, "Toggle Sprint",
@@ -66,6 +66,17 @@ public final class NullClientScreen extends Screen {
                 Text.literal("Press F8 or ESC to close"), this.width / 2,
                 bottom - 13, 0xFF55E7F2);
         super.render(context, mouseX, mouseY, delta);
+    }
+
+    private void drawFeature(DrawContext context, int left, int right, int y,
+                             String name, String key, String state) {
+        context.fill(left + 18, y - 4, right - 18, y + 19, 0x401C2A38);
+        context.drawTextWithShadow(textRenderer, Text.literal(name),
+                left + 27, y + 3, 0xFFEAF2FA);
+        context.drawTextWithShadow(textRenderer, Text.literal(key),
+                right - 105, y + 3, 0xFF55E7F2);
+        context.drawTextWithShadow(textRenderer, Text.literal(state), right - 58, y + 3,
+                0xFF55E58A);
     }
 
     private void drawFeature(DrawContext context, int left, int right, int y,
