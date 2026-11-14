@@ -1,50 +1,35 @@
 # Null Client
 
-A Fabric client-side utility mod for **Minecraft Java 1.21.11**.
+A Fabric client-side mod for **Minecraft Java 1.21.11**. The distributable Null Client JAR bundles the official Meteor Client build for Minecraft 1.21.11 (archive build 86) as a Fabric nested mod.
 
-## Features
+## Install — one JAR only
 
-- **Freecam movement (F6):** local no-clip movement. This first implementation is not a detached camera and may be corrected by multiplayer servers.
-- **Auto Mine (F7):** holds the attack input while enabled and no GUI is open. It mines the block under the crosshair; normal tool and server rules still apply.
-- **Custom HUD (F8):** shows the state of enabled features.
-- **Anti-Lag profile (F9):** switches the particle setting between Minimal and All.
+1. Use Minecraft Java 1.21.11 with Fabric Loader and Fabric API installed.
+2. Download the **Null Client** JAR from the GitHub Actions artifact.
+3. Put only that JAR in your `.minecraft/mods` folder.
+4. Launch the Fabric 1.21.11 profile.
 
-## Keybinds
+You do **not** need to download or install a separate Meteor Client JAR. Fabric loads the bundled Meteor mod from inside Null Client.
 
-Open **Options → Controls → Key Binds → Null Client** to change the defaults.
+## Included code and credits
 
-| Key | Action |
-|---|---|
-| F6 | Toggle freecam movement |
-| F7 | Toggle auto mine |
-| F8 | Toggle HUD |
-| F9 | Toggle anti-lag profile |
+- Null Client branding, project integration, and custom features: Null Client contributors.
+- Bundled upstream client: **Meteor Client**, copyright Meteor Development and contributors.
+- Official Meteor source: https://github.com/MeteorDevelopment/meteor-client
+- Official Meteor 1.21.11 archive: https://www.meteorclient.com/archive (build 86).
+
+Meteor is bundled unmodified as a nested Fabric mod. Its modules, GUI, and keybinds are provided by that bundled Meteor build. Null Client's own screen and keybinds remain separate. This project is not affiliated with or endorsed by Meteor Development.
 
 ## Build
 
-Requirements: JDK 21 and internet access for Gradle dependency downloads.
+Requirements: JDK 21 and internet access.
 
 ```bash
-./gradlew build
+gradle build
 ```
 
-The distributable mod jar is written to `build/libs/nullclient-1.0.0.jar`.
-
-On Windows use `gradlew.bat build`.
-
-## Install
-
-1. Install Fabric Loader for Minecraft 1.21.11.
-2. Install the matching Fabric API.
-3. Copy the built Null Client jar into the Minecraft `mods` folder.
-4. Launch the Fabric profile.
-
-## Important limitations
-
-This is an early client-side build. Freecam currently means local no-clip movement, not a separate camera entity. Auto Mine only automates the local attack input and does not bypass server protections. The Auto Relog feature and a graphical settings screen are not implemented yet. The anti-lag profile changes the particle setting only.
-
-Use only where client-side mods and automation are permitted. Back up worlds before testing.
+The build downloads the official Meteor 1.21.11 artifact, checks its Fabric metadata, and embeds it at `META-INF/jars/meteor-client.jar`. The resulting Null Client JAR is the only mod file users need to add.
 
 ## License
 
-MIT. See [LICENSE](LICENSE).
+This combined distribution is provided under **GNU GPL v3**. See [LICENSE](LICENSE). Meteor Client's corresponding source is available from the official repository linked above.
