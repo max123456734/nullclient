@@ -18,14 +18,12 @@ public final class NullClient implements ClientModInitializer {
             KeyBinding.Category.create(Identifier.of("nullclient", "controls"));
 
     private static KeyBinding freecamKey;
-    private static KeyBinding autoMineKey;
     private static KeyBinding hudKey;
     private static KeyBinding antiLagKey;
     private static KeyBinding toggleSprintKey;
     private static KeyBinding toggleSneakKey;
 
     private static boolean freecamEnabled;
-    private static boolean autoMineEnabled;
     private static boolean hudEnabled = true;
     private static boolean antiLagEnabled;
     private static boolean toggleSprintEnabled;
@@ -35,7 +33,6 @@ public final class NullClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         freecamKey = register("key.nullclient.freecam", GLFW.GLFW_KEY_F6);
-        autoMineKey = register("key.nullclient.auto_mine", GLFW.GLFW_KEY_F7);
         hudKey = register("key.nullclient.hud", GLFW.GLFW_KEY_F8);
         antiLagKey = register("key.nullclient.anti_lag", GLFW.GLFW_KEY_F9);
         toggleSprintKey = register("key.nullclient.toggle_sprint", GLFW.GLFW_KEY_F10);
@@ -48,13 +45,10 @@ public final class NullClient implements ClientModInitializer {
 
             int y = 8;
             drawContext.drawTextWithShadow(client.textRenderer,
-                    Text.literal("§bNull Client §7v1.0.2"), 8, y, 0xFFFFFF);
+                    Text.literal("§bNull Client §7v1.0.3"), 8, y, 0xFFFFFF);
             y += 12;
             drawContext.drawTextWithShadow(client.textRenderer,
                     status("Freecam", freecamEnabled), 8, y, 0xFFFFFF);
-            y += 12;
-            drawContext.drawTextWithShadow(client.textRenderer,
-                    status("Auto Mine", autoMineEnabled), 8, y, 0xFFFFFF);
             y += 12;
             drawContext.drawTextWithShadow(client.textRenderer,
                     status("Anti-Lag", antiLagEnabled), 8, y, 0xFFFFFF);
@@ -91,11 +85,6 @@ public final class NullClient implements ClientModInitializer {
             notify(client, "Freecam", freecamEnabled);
         }
 
-        while (autoMineKey.wasPressed()) {
-            autoMineEnabled = !autoMineEnabled;
-            notify(client, "Auto Mine", autoMineEnabled);
-        }
-
         while (hudKey.wasPressed()) {
             hudEnabled = !hudEnabled;
             notify(client, "HUD", hudEnabled);
@@ -124,13 +113,11 @@ public final class NullClient implements ClientModInitializer {
             boolean gameplayActive = client.currentScreen == null;
             client.options.sprintKey.setPressed(toggleSprintEnabled && gameplayActive);
             client.options.sneakKey.setPressed(toggleSneakEnabled && gameplayActive);
-            client.options.attackKey.setPressed(autoMineEnabled && gameplayActive);
         } else if (client.options != null) {
             freecamPosition = null;
             freecamEnabled = false;
             client.options.sprintKey.setPressed(false);
             client.options.sneakKey.setPressed(false);
-            client.options.attackKey.setPressed(false);
         }
     }
 
