@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "id": "null_fps_boost",
+  "version": "${version}",
+  "name": "Null FPS Boost",
+  "description": "A lightweight client-side performance preset for Minecraft 26.2.",
+  "authors": ["Null Client"],
+  "environment": "client",
+  "entrypoints": {
+    "client": ["max123456734.nullfps.NullFpsBoost"]
+  },
+  "depends": {
+    "fabricloader": ">=0.19.0",
+    "minecraft": "~26.2",
+    "java": ">=25",
+    "fabric-api": "*"
+  }
+}
