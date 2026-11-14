@@ -2,10 +2,7 @@
   "required": true,
   "package": "dev.nullclient.mixin",
   "compatibilityLevel": "JAVA_21",
-  "client": [
-    "CameraMixin",
-    "ClientPlayerEntityMixin"
-  ],
+  "client": [],
   "injectors": {
     "defaultRequire": 1
   }
