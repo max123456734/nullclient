@@ -3,20 +3,26 @@
   "id": "nullclient",
   "version": "${version}",
   "name": "Null Client",
-  "description": "A configurable client-side utility mod for Minecraft Java 1.21.11.",
+  "description": "Null Client with the official Meteor Client 1.21.11 build bundled inside. Install this JAR only.",
   "authors": [
-    "max123456734"
+    "max123456734",
+    "Meteor Development Team"
   ],
   "contact": {
     "sources": "https://github.com/max123456734/nullclient"
   },
-  "license": "MIT",
+  "license": "GPL-3.0-only",
   "environment": "client",
   "entrypoints": {
     "client": [
       "dev.nullclient.NullClient"
     ]
   },
+  "jars": [
+    {
+      "file": "META-INF/jars/meteor-client.jar"
+    }
+  ],
   "depends": {
     "fabricloader": ">=0.18.1",
     "minecraft": "1.21.11",
