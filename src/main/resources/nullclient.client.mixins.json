@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "package": "dev.nullclient.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "client": [
+    "FreecamMixins$CameraMixin",
+    "FreecamMixins$ClientPlayerEntityMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
